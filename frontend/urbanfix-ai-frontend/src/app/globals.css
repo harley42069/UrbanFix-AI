@@ -1,0 +1,48 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+    --color-primary: #1a5490; /* dark blue */
+    --color-secondary: #2c7bb6; /* medium blue */
+    --color-accent: #f0f4f8; /* light blue */
+}
+
+body {
+    font-family: 'Inter', sans-serif;
+    background-color: var(--color-accent);
+    color: #333;
+}
+
+h1, h2, h3, h4, h5, h6 {
+    color: var(--color-primary);
+}
+
+a {
+    color: var(--color-secondary);
+    text-decoration: none;
+}
+
+a:hover {
+    text-decoration: underline;
+}
+
+button {
+    background-color: var(--color-primary);
+    color: white;
+}
+
+button:hover {
+    background-color: var(--color-secondary);
+}
+
+.toast {
+    background-color: var(--color-primary);
+    color: white;
+    padding: 1rem;
+    border-radius: 0.5rem;
+    position: fixed;
+    top: 1rem;
+    right: 1rem;
+    z-index: 1000;
+}

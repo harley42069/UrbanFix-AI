@@ -1,0 +1,96 @@
+# ═══════════════════════════════════════════════════════
+# FRAMEWORK API
+# ═══════════════════════════════════════════════════════
+fastapi==0.109.0
+uvicorn[standard]==0.27.0
+
+# ═══════════════════════════════════════════════════════
+# BASE DE DONNÉES
+# ═══════════════════════════════════════════════════════
+sqlalchemy==2.0.25
+alembic==1.13.1
+psycopg2-binary==2.9.9  # PostgreSQL
+
+# ═══════════════════════════════════════════════════════
+# VALIDATION
+# ═══════════════════════════════════════════════════════
+pydantic==2.5.3
+pydantic-settings==2.1.0
+
+# ═══════════════════════════════════════════════════════
+# AUTHENTIFICATION
+# ═══════════════════════════════════════════════════════
+python-jose[cryptography]==3.3.0
+passlib[bcrypt]==1.7.4
+python-multipart==0.0.6
+
+# ═══════════════════════════════════════════════════════
+# IA GÉNÉRATIVE - DÉTECTION
+# ═══════════════════════════════════════════════════════
+# YOLOv8 pour détection objets
+ultralytics==8.1.11
+torch==2.2.2
+torchvision==0.17.2
+opencv-python==4.9.0.80
+opencv-python-headless==4.9.0.80
+
+# ═══════════════════════════════════════════════════════
+# IA GÉNÉRATIVE - IMAGES (SDXL)
+# ═══════════════════════════════════════════════════════
+diffusers==0.26.3
+transformers==4.37.2
+accelerate==0.26.1
+safetensors==0.4.2
+invisible-watermark==0.2.0  # Pour SDXL
+omegaconf==2.3.0
+
+# ═══════════════════════════════════════════════════════
+# IA GÉNÉRATIVE - TEXTE (Llama via Groq)
+# ═══════════════════════════════════════════════════════
+groq==0.4.2  # Llama 3.1 70B gratuit
+openai==1.10.0  # Optionnel (GPT-4 Vision)
+
+# ═══════════════════════════════════════════════════════
+# IA GÉNÉRATIVE - AUDIO (Bark TTS)
+# ═══════════════════════════════════════════════════════
+git+https://github.com/suno-ai/bark.git
+scipy==1.12.0
+soundfile==0.12.1
+
+# ═══════════════════════════════════════════════════════
+# IA GÉNÉRATIVE - VIDÉO
+# ═══════════════════════════════════════════════════════
+# Stable Video Diffusion + MoviePy
+moviepy==1.0.3
+imageio==2.33.1
+imageio-ffmpeg==0.4.9
+numpy==1.26.3
+
+# ═══════════════════════════════════════════════════════
+# GÉNÉRATION PDF
+# ═══════════════════════════════════════════════════════
+reportlab==4.0.9
+weasyprint==60.2
+cairocffi==1.6.1  # Dépendance WeasyPrint
+pypdf2==3.0.1  # Manipulation PDF
+markdown==3.5.2  # Conversion Markdown -> HTML
+jinja2==3.1.3  # Templates HTML pour PDF
+
+# ═══════════════════════════════════════════════════════
+# UTILITAIRES
+# ═══════════════════════════════════════════════════════
+python-dotenv==1.0.0
+requests==2.31.0
+pillow==10.2.0
+aiofiles==23.2.1  # I/O asynchrone fichiers
+pydantic-extra-types==2.4.1
+python-dateutil==2.8.2
+langdetect==1.0.9
+
+# ═══════════════════════════════════════════════════════
+# TESTS
+# ═══════════════════════════════════════════════════════
+pytest==7.4.4
+pytest-cov==4.1.0
+pytest-asyncio==0.23.3
+httpx==0.26.0  # Client HTTP async pour tests

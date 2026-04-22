@@ -1,0 +1,80 @@
+# ========== VIRTUAL ENVIRONMENTS ==========
+venv/
+venv311/
+.env/
+.venv/
+
+# ========== ENVIRONMENT FILES ==========
+.env
+.env.local
+.env.*.local
+
+# ========== DATASETS / DATA ==========
+datasets/
+data/
+test_data/
+runs/
+runs_road_damage/
+training/
+temp/
+uploads/
+models/
+*.pth
+*.pt
+*.safetensors
+*.bin
+
+# ========== DATABASE ==========
+*.db
+*.sqlite
+*.sqlite3
+
+# ========== OUTPUTS / ARTIFACTS ==========
+outputs/
+comparison_output/
+*.pdf
+*.mp3
+*.wav
+*.mp4
+
+# ========== LOGS ==========
+*.log
+logs/
+pytest_process_status.log
+test_results.txt
+test_output.txt
+
+# ========== PYTHON CACHE ==========
+__pycache__/
+*.pyc
+*.pyo
+*.egg-info/
+dist/
+build/
+.pytest_cache/
+.coverage
+
+# ========== IDE / EDITOR ==========
+.vscode/
+.idea/
+*.swp
+*.swo
+*.swn
+.DS_Store
+Thumbs.db
+
+# ========== NODE / FRONTEND ==========
+node_modules/
+npm-debug.log
+yarn-error.log
+.next/
+dist/
+build/
+
+*# dataset archive
+*.zip
+
+# temp files
+temp_*.json
+prepare_*.log
+*.log

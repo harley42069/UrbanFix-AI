@@ -1,0 +1,39 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  color-scheme: light;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  @apply text-slate-900 antialiased;
+  font-family: "Trebuchet MS", "Aptos", "Segoe UI", sans-serif;
+  background: #f0f4f8;
+}
+
+a {
+  @apply transition-colors;
+}
+
+:focus-visible {
+  @apply outline-none ring-2 ring-cyan-500 ring-offset-2;
+}
+
+.bg-grid-gradient {
+  background:
+    radial-gradient(circle at 20% 10%, rgba(31, 111, 178, 0.16), transparent 38%),
+    radial-gradient(circle at 85% 0%, rgba(24, 91, 144, 0.1), transparent 30%),
+    linear-gradient(180deg, #f8fbfe 0%, #f3f7fb 48%, #eef4f9 100%);
+}
+
+.bg-municipal-shell {
+  background:
+    radial-gradient(circle at 15% 0%, rgba(31, 111, 178, 0.18), transparent 35%),
+    radial-gradient(circle at 88% 12%, rgba(26, 84, 144, 0.12), transparent 28%),
+    linear-gradient(180deg, #f8fbfe 0%, #f1f5f9 55%, #edf2f7 100%);
+}
