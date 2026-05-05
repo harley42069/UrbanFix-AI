@@ -6,7 +6,7 @@ type CostTableProps = {
 
 function formatTnd(value: number): string {
   if (!Number.isFinite(value)) return "-";
-  return new Intl.NumberFormat("fr-FR", {
+  return new Intl.NumberFormat("en-US", {
     style: "currency",
     currency: "TND",
     maximumFractionDigits: 0
@@ -15,7 +15,7 @@ function formatTnd(value: number): string {
 
 export default function CostTable({ scenarios }: CostTableProps) {
   if (!scenarios.length) {
-    return <p className="text-sm text-slate-500">Aucun cout disponible.</p>;
+    return <p className="text-sm text-slate-500">No cost available.</p>;
   }
 
   return (
@@ -31,10 +31,10 @@ export default function CostTable({ scenarios }: CostTableProps) {
             <table className="min-w-full text-sm">
               <thead className="bg-white text-left text-slate-600">
                 <tr>
-                  <th className="px-4 py-2">Poste</th>
-                  <th className="px-4 py-2">Quantite</th>
-                  <th className="px-4 py-2">Unite</th>
-                  <th className="px-4 py-2">Prix Unit.</th>
+                  <th className="px-4 py-2">Item</th>
+                  <th className="px-4 py-2">Quantity</th>
+                  <th className="px-4 py-2">Unit</th>
+                  <th className="px-4 py-2">Unit Price</th>
                   <th className="px-4 py-2">Total</th>
                 </tr>
               </thead>
@@ -52,7 +52,7 @@ export default function CostTable({ scenarios }: CostTableProps) {
                 ) : (
                   <tr>
                     <td colSpan={5} className="px-4 py-4 text-sm text-slate-500">
-                      Aucun detail de cout.
+                      No cost details.
                     </td>
                   </tr>
                 )}

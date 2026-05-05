@@ -23,12 +23,12 @@ export default function ImageUploader({ file, onChange, error }: ImageUploaderPr
     <div className="space-y-3 rounded-3xl border border-dashed border-slate-300 bg-slate-50 p-4">
       <div className="flex items-center justify-between gap-3">
         <div>
-          <p className="text-sm font-semibold text-slate-900">Photo du signalement</p>
-          <p className="text-xs text-slate-500">JPEG, PNG ou WEBP</p>
+          <p className="text-sm font-semibold text-slate-900">Report photo</p>
+          <p className="text-xs text-slate-500">JPEG, PNG, or WEBP</p>
         </div>
         {file ? (
           <button type="button" onClick={() => onChange(null)} className="rounded-full border border-slate-300 bg-white px-3 py-1.5 text-xs font-semibold text-slate-700 hover:bg-slate-100">
-            Supprimer
+            Remove
           </button>
         ) : null}
       </div>
@@ -41,12 +41,12 @@ export default function ImageUploader({ file, onChange, error }: ImageUploaderPr
           onChange={(event) => onChange(event.target.files?.[0] || null)}
         />
         <span className="text-sm text-slate-600">
-          {file ? file.name : "Glissez une image ou cliquez pour en choisir une"}
+          {file ? file.name : "Drag an image here or click to choose one"}
         </span>
       </label>
 
       {previewUrl ? (
-        <img src={previewUrl} alt="Apercu du signalement" className="h-56 w-full rounded-2xl object-cover shadow-sm" />
+        <img src={previewUrl} alt="Report preview" className="h-56 w-full rounded-2xl object-cover shadow-sm" />
       ) : null}
 
       {error ? <p className="text-sm text-rose-700">{error}</p> : null}

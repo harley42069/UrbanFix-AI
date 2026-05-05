@@ -1,3 +1,5 @@
+"use client";
+
 import { useState } from 'react';
 import { useRouter } from 'next/navigation';
 
@@ -7,7 +9,7 @@ const LoginPage = () => {
   const [error, setError] = useState('');
   const router = useRouter();
 
-  const handleLogin = async (e: React.FormEvent) => {
+  const handleLogin = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     setError('');
 
@@ -28,10 +30,15 @@ const LoginPage = () => {
       }
 
       const data = await response.json();
-      localStorage.setItem('urbanfix_token', data.token);
+      const token = data?.data?.access_token || data?.access_token || data?.token;
+      if (!token) {
+        throw new Error('Token missing from login response');
+      }
+
+      localStorage.setItem('urbanfix_token', token);
       router.push('/dashboard');
-    } catch (err) {
-      setError(err.message);
+    } catch (err: unknown) {
+      setError(err instanceof Error ? err.message : 'Login failed');
     }
   };
 

@@ -11,17 +11,17 @@ import { listSignalements } from "@/lib/api";
 import type { PipelineStatus, SignalementSummary } from "@/lib/types";
 
 const STATUSES: Array<{ label: string; value: PipelineStatus | "all" }> = [
-  { label: "Tous", value: "all" },
-  { label: "En attente", value: "pending" },
-  { label: "En cours", value: "processing" },
-  { label: "Termines", value: "completed" },
-  { label: "Echoues", value: "failed" },
-  { label: "Rejetes", value: "rejected" }
+  { label: "All", value: "all" },
+  { label: "Pending", value: "pending" },
+  { label: "In progress", value: "processing" },
+  { label: "Completed", value: "completed" },
+  { label: "Failed", value: "failed" },
+  { label: "Rejected", value: "rejected" }
 ];
 
 function formatDate(value?: string | null): string {
   if (!value) return "-";
-  return new Intl.DateTimeFormat("fr-FR", { dateStyle: "medium", timeStyle: "short" }).format(new Date(value));
+  return new Intl.DateTimeFormat("en-US", { dateStyle: "medium", timeStyle: "short" }).format(new Date(value));
 }
 
 export default function SignalementsPage() {
@@ -44,7 +44,7 @@ export default function SignalementsPage() {
         setSignalements(response.items);
         setPages(response.pagination?.pages || 1);
       } catch (fetchError) {
-        setError(fetchError instanceof Error ? fetchError.message : "Erreur de chargement de la liste");
+        setError(fetchError instanceof Error ? fetchError.message : "Unable to load the list");
       } finally {
         setLoading(false);
       }
@@ -67,11 +67,11 @@ export default function SignalementsPage() {
       <section className="space-y-6" style={{ background: "linear-gradient(180deg, #fdf6ec 0%, #f5ede0 100%)" }}>
         <Card className="space-y-4 rounded-3xl border-[#e8d5c0] bg-white">
           <SectionHeader
-            title="Signalements"
-            subtitle="Filtrer, retrouver et ouvrir les dossiers en un seul endroit"
+            title="Reports"
+            subtitle="Filter, find, and open cases in one place"
             actions={
               <Link href="/signalements/new" className="rounded-full bg-[#c4623a] px-4 py-2 text-sm font-semibold text-white hover:bg-[#a94a2a]">
-                Nouveau dossier
+                New case
               </Link>
             }
           />
@@ -82,7 +82,7 @@ export default function SignalementsPage() {
             <input
               value={search}
               onChange={(event) => setSearch(event.target.value)}
-              placeholder="Rechercher par titre, ville, region ou etape"
+              placeholder="Search by title, city, region, or stage"
               className="w-full rounded-3xl border border-[#e8d5c0] bg-white px-4 py-3 text-sm text-[#1a1a1a] outline-none transition focus:border-[#c4623a] focus:ring-4 focus:ring-[#f3d6c8]"
             />
             <div className="flex flex-wrap gap-2">
@@ -121,28 +121,28 @@ export default function SignalementsPage() {
                 <Link key={item.id} href={`/signalements/${item.id}`} className="block rounded-3xl border border-[#e8d5c0] bg-white p-4 transition hover:border-[#1a5490] hover:shadow-sm">
                   <div className="flex flex-wrap items-start justify-between gap-3">
                     <div>
-                      <h3 className="text-base font-semibold text-[#1a1a1a]">{item.title || `Signalement #${item.id}`}</h3>
-                      <p className="mt-1 text-sm text-[#8b6f5e]">{item.description || "Aucune description"}</p>
+                      <h3 className="text-base font-semibold text-[#1a1a1a]">{item.title || `Report #${item.id}`}</h3>
+                      <p className="mt-1 text-sm text-[#8b6f5e]">{item.description || "No description"}</p>
                     </div>
                     <StatusBadge status={item.status} />
                   </div>
 
                   <div className="mt-4 grid gap-2 text-xs text-[#8b6f5e] sm:grid-cols-4">
-                    <span>Ville: {item.city || "-"}</span>
+                    <span>City: {item.city || "-"}</span>
                     <span>Region: {item.region || "-"}</span>
-                    <span>Etape: {item.current_stage || "queued"}</span>
-                    <span>Maj: {formatDate(item.updated_at)}</span>
+                    <span>Stage: {item.current_stage || "queued"}</span>
+                    <span>Updated: {formatDate(item.updated_at)}</span>
                   </div>
                 </Link>
               ))}
             </div>
           ) : (
-            <p className="text-sm text-slate-500">Aucun resultat ne correspond aux filtres courants.</p>
+            <p className="text-sm text-slate-500">No results match the current filters.</p>
           )}
 
           <div className="flex items-center justify-between border-t border-[#e8d5c0] pt-4">
             <p className="text-sm text-[#8b6f5e]">
-              Page {page} sur {pages}
+              Page {page} of {pages}
             </p>
             <div className="flex gap-2">
               <button
@@ -151,7 +151,7 @@ export default function SignalementsPage() {
                 onClick={() => setPage((current) => Math.max(1, current - 1))}
                 className="rounded-full border border-[#e8d5c0] bg-white px-4 py-2 text-sm font-semibold text-[#1a5490] hover:bg-[#f0f7ff] disabled:cursor-not-allowed disabled:opacity-50"
               >
-                Precedent
+                Previous
               </button>
               <button
                 type="button"
@@ -159,7 +159,7 @@ export default function SignalementsPage() {
                 onClick={() => setPage((current) => current + 1)}
                 className="rounded-full bg-[#c4623a] px-4 py-2 text-sm font-semibold text-white hover:bg-[#a94a2a] disabled:cursor-not-allowed disabled:opacity-50"
               >
-                Suivant
+                Next
               </button>
             </div>
           </div>

@@ -6,11 +6,29 @@ Script de test des endpoints REST de l'API UrbanFix AI
 import requests
 import json
 import time
+import os
 from pathlib import Path
+
+import pytest
 
 # Configuration
 BASE_URL = "http://localhost:8000"
 API_V1 = f"{BASE_URL}/api/v1"
+
+pytestmark = pytest.mark.skipif(
+    os.getenv("RUN_API_ENDPOINT_TESTS") != "1",
+    reason="Manual live-server API smoke tests; set RUN_API_ENDPOINT_TESTS=1 to run.",
+)
+
+
+@pytest.fixture
+def file_id():
+    return test_upload_endpoint()
+
+
+@pytest.fixture
+def analysis_id(file_id: str):
+    return test_analysis_endpoints(file_id)
 
 
 def print_section(title: str):

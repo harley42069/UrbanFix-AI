@@ -29,12 +29,12 @@ type FormState = {
 };
 
 const CATEGORY_OPTIONS: Array<{ value: ProblemCategory; label: string }> = [
-  { value: "roads", label: "Routes" },
-  { value: "sidewalk", label: "Trottoirs" },
-  { value: "lighting", label: "Eclairage" },
-  { value: "waste", label: "Dechets" },
+  { value: "roads", label: "Roads" },
+  { value: "sidewalk", label: "Sidewalks" },
+  { value: "lighting", label: "Lighting" },
+  { value: "waste", label: "Waste" },
   { value: "drainage", label: "Drainage" },
-  { value: "other", label: "Autre" }
+  { value: "other", label: "Other" }
 ];
 
 function initialState(): FormState {
@@ -120,15 +120,15 @@ export default function NewSignalementPage() {
       });
 
       pushToast({
-        title: "Signalement cree",
-        message: `Dossier #${result.signalementId} transmis au pipeline`,
+        title: "Report created",
+        message: `Case #${result.signalementId} sent to the pipeline`,
         variant: "success"
       });
       router.push(`/signalements/${result.signalementId}`);
     } catch (submitError) {
-      const message = submitError instanceof Error ? submitError.message : "Creation impossible";
+      const message = submitError instanceof Error ? submitError.message : "Unable to create report";
       setErrors([message]);
-      pushToast({ title: "Creation refusee", message, variant: "danger" });
+      pushToast({ title: "Report creation failed", message, variant: "danger" });
     } finally {
       setLoading(false);
     }
@@ -139,16 +139,16 @@ export default function NewSignalementPage() {
       <section className="space-y-6" style={{ background: "linear-gradient(180deg, #fdf6ec 0%, #f5ede0 100%)" }}>
         <form onSubmit={handleSubmit} className="space-y-6">
           <Card className="space-y-5 rounded-3xl border-[#e8d5c0] bg-white">
-            <SectionHeader title="Prompt et media" subtitle="Texte libre, photo et livrables additionnels" />
+            <SectionHeader title="Prompt and media" subtitle="Free text, photo, and optional outputs" />
 
             <label className="space-y-2 block">
-              <span className="text-sm font-medium text-[#1a1a1a]">Prompt / description operationnelle</span>
+              <span className="text-sm font-medium text-[#1a1a1a]">Operational prompt / description</span>
               <textarea
                 value={form.user_prompt}
                 onChange={(event) => updateField("user_prompt", event.target.value)}
                 rows={5}
                 className="w-full rounded-3xl border border-[#e8d5c0] bg-white px-4 py-3 text-sm text-[#1a1a1a] outline-none transition focus:border-[#c4623a] focus:ring-4 focus:ring-[#f3d6c8]"
-                placeholder="Decrivez l'etat de la route, les travaux souhaites, les contraintes..."
+                placeholder="Describe the road condition, desired work, constraints..."
               />
             </label>
 
@@ -167,21 +167,21 @@ export default function NewSignalementPage() {
           </Card>
 
           <Card className="space-y-5 rounded-3xl border-[#e8d5c0] bg-white">
-            <SectionHeader title="Informations du dossier" subtitle="Champs de base pour la collecte et le traitement" />
+            <SectionHeader title="Report information" subtitle="Core fields for collection and processing" />
 
             <div className="grid gap-4 md:grid-cols-4">
               <label className="space-y-2 md:col-span-2">
-                <span className="text-sm font-medium text-[#1a1a1a]">Titre</span>
+                <span className="text-sm font-medium text-[#1a1a1a]">Title</span>
                 <input
                   value={form.title}
                   onChange={(event) => updateField("title", event.target.value)}
                   className="w-full rounded-3xl border border-[#e8d5c0] bg-white px-4 py-3 text-sm text-[#1a1a1a] outline-none transition focus:border-[#c4623a] focus:ring-4 focus:ring-[#f3d6c8]"
-                  placeholder="Ex. Nid-de-poule rue Ibn Khaldoun"
+                  placeholder="Example: Pothole on Ibn Khaldoun Street"
                 />
               </label>
 
               <label className="space-y-2">
-                <span className="text-sm font-medium text-[#1a1a1a]">Ville</span>
+                <span className="text-sm font-medium text-[#1a1a1a]">City</span>
                 <input
                   value={form.city}
                   onChange={(event) => updateField("city", event.target.value)}
@@ -200,7 +200,7 @@ export default function NewSignalementPage() {
             </div>
 
             <div className="space-y-3">
-              <p className="text-sm font-semibold text-[#1a1a1a]">Categorie</p>
+              <p className="text-sm font-semibold text-[#1a1a1a]">Category</p>
               <div className="flex flex-wrap gap-2">
                 {CATEGORY_OPTIONS.map((option) => {
                   const active = form.category === option.value;
@@ -238,7 +238,7 @@ export default function NewSignalementPage() {
             disabled={loading}
             className="w-full rounded-full bg-[#c4623a] px-4 py-4 text-sm font-semibold text-white transition hover:bg-[#a94a2a] disabled:cursor-not-allowed disabled:opacity-60"
           >
-            {loading ? "Creation en cours..." : "Enregistrer et lancer le traitement"}
+            {loading ? "Creating..." : "Save and start processing"}
           </button>
         </form>
       </section>

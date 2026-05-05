@@ -13,7 +13,7 @@ function toTitle(value: string): string {
 
 export default function ScenarioGallery({ scenarios }: ScenarioGalleryProps) {
   if (!scenarios.length) {
-    return <p className="text-sm text-slate-500">Aucun scenario disponible.</p>;
+    return <p className="text-sm text-slate-500">No scenario available.</p>;
   }
 
   return (
@@ -43,7 +43,7 @@ export default function ScenarioGallery({ scenarios }: ScenarioGalleryProps) {
               </details>
 
               <p className="text-sm font-semibold text-slate-900">
-                {new Intl.NumberFormat("fr-FR").format(Math.round(scenario.cost_total))} TND
+                {new Intl.NumberFormat("en-US").format(Math.round(scenario.cost_total))} TND
               </p>
             </div>
           </article>

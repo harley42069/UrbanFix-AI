@@ -5,8 +5,10 @@ Configuration centralisée application
 Variables chargées depuis .env
 """
 
+from typing import Any, Optional, List
+
+from pydantic import field_validator
 from pydantic_settings import BaseSettings, SettingsConfigDict
-from typing import Optional, List
 
 
 class Settings(BaseSettings):
@@ -23,6 +25,18 @@ class Settings(BaseSettings):
     VERSION: str = "1.0.0"
     ENVIRONMENT: str = "development"
     DEBUG: bool = True  # Mode debug (mettre False en production)  
+
+    @field_validator("DEBUG", mode="before")
+    @classmethod
+    def parse_debug(cls, value: Any) -> Any:
+        """Accept common deployment strings for DEBUG."""
+        if isinstance(value, str):
+            normalized = value.strip().lower()
+            if normalized in {"true", "1", "yes", "dev", "development", "debug"}:
+                return True
+            if normalized in {"false", "0", "no", "prod", "production", "release"}:
+                return False
+        return value
     
    
     # API
@@ -215,7 +229,6 @@ def get_settings() -> Settings:
     Utile pour dependency injection FastAPI
     """
     return settings
-
 
 
 

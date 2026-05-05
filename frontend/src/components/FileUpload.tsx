@@ -26,7 +26,7 @@ export default function FileUpload({ onFileChange, previewUrl, error }: FileUplo
           type="button"
           onClick={() => setIsMenuOpen((state) => !state)}
           className="inline-flex h-11 w-11 items-center justify-center rounded-full border border-slate-300 bg-white text-xl font-semibold text-slate-700 transition hover:border-cyan-400 hover:text-cyan-700"
-          aria-label="Ajouter une image"
+          aria-label="Add image"
         >
           +
         </button>
@@ -38,14 +38,14 @@ export default function FileUpload({ onFileChange, previewUrl, error }: FileUplo
               onClick={() => galleryInputRef.current?.click()}
               className="block w-full rounded-lg px-3 py-2 text-left text-sm font-medium text-slate-700 hover:bg-slate-100"
             >
-              Ouvrir la galerie
+              Open gallery
             </button>
             <button
               type="button"
               onClick={() => cameraInputRef.current?.click()}
               className="block w-full rounded-lg px-3 py-2 text-left text-sm font-medium text-slate-700 hover:bg-slate-100"
             >
-              Prendre une photo
+              Take a photo
             </button>
           </div>
         ) : null}

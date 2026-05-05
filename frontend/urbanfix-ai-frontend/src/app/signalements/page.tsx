@@ -1,11 +1,14 @@
+"use client";
+
 import { useEffect, useState } from 'react';
 import { fetchSignalements } from '@/lib/api';
 import StatusBadge from '@/components/StatusBadge';
+import type { Signalement } from '@/types';
 
 const SignalementsPage = () => {
-  const [signalements, setSignalements] = useState([]);
+  const [signalements, setSignalements] = useState<Signalement[]>([]);
   const [loading, setLoading] = useState(true);
-  const [error, setError] = useState(null);
+  const [error, setError] = useState<string | null>(null);
   const [filter, setFilter] = useState('all'); // For filtering by status
 
   useEffect(() => {
@@ -13,8 +16,8 @@ const SignalementsPage = () => {
       try {
         const data = await fetchSignalements(filter);
         setSignalements(data);
-      } catch (err) {
-        setError(err.message);
+      } catch (err: unknown) {
+        setError(err instanceof Error ? err.message : 'Failed to load reports');
       } finally {
         setLoading(false);
       }
@@ -28,7 +31,7 @@ const SignalementsPage = () => {
 
   return (
     <div className="p-4">
-      <h1 className="text-2xl font-bold mb-4">Signalements</h1>
+      <h1 className="text-2xl font-bold mb-4">Reports</h1>
       <div className="mb-4">
         <label htmlFor="filter" className="mr-2">Filter by status:</label>
         <select

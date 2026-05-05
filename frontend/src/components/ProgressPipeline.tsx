@@ -16,7 +16,7 @@ export default function ProgressPipeline({ status, progress, currentStage, lastE
     <div className="space-y-4 rounded-3xl border border-slate-200 bg-white p-5 shadow-sm">
       <div className="flex flex-wrap items-center justify-between gap-3">
         <div>
-          <p className="text-sm font-semibold text-slate-900">Pipeline IA</p>
+          <p className="text-sm font-semibold text-slate-900">AI pipeline</p>
         </div>
         <Badge tone={status === "completed" ? "success" : status === "failed" ? "danger" : status === "processing" ? "warning" : "neutral"}>
           {String(status).toUpperCase()}

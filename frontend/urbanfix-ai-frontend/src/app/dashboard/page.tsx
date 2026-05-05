@@ -1,10 +1,13 @@
+"use client";
+
 import React, { useEffect, useState } from 'react';
 import { fetchSignalements } from '@/lib/api';
 import StatusBadge from '@/components/StatusBadge';
 import Link from 'next/link';
+import type { Signalement } from '@/types';
 
 const DashboardPage = () => {
-  const [signalements, setSignalements] = useState([]);
+  const [signalements, setSignalements] = useState<Signalement[]>([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState('');
 
@@ -13,8 +16,8 @@ const DashboardPage = () => {
       try {
         const data = await fetchSignalements();
         setSignalements(data);
-      } catch (err) {
-        setError('Failed to load signalements');
+      } catch (err: unknown) {
+        setError(err instanceof Error ? err.message : 'Failed to load reports');
       } finally {
         setLoading(false);
       }
@@ -31,7 +34,7 @@ const DashboardPage = () => {
       <h1 className="text-2xl font-bold mb-4">Dashboard</h1>
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4 mb-4">
         <div className="bg-primary text-white p-4 rounded-lg">
-          <h2>Total Signalements</h2>
+          <h2>Total Reports</h2>
           <p>{signalements.length}</p>
         </div>
         <div className="bg-secondary text-white p-4 rounded-lg">
@@ -47,7 +50,7 @@ const DashboardPage = () => {
           <p>{signalements.filter(s => s.status === 'failed').length}</p>
         </div>
       </div>
-      <h2 className="text-xl font-bold mb-2">Recent Signalements</h2>
+      <h2 className="text-xl font-bold mb-2">Recent Reports</h2>
       <table className="min-w-full bg-white border border-gray-300">
         <thead>
           <tr>
@@ -75,7 +78,7 @@ const DashboardPage = () => {
         </tbody>
       </table>
       <Link href="/signalements/new" className="mt-4 inline-block bg-primary text-white py-2 px-4 rounded">
-        Nouveau Signalement
+        New Report
       </Link>
     </div>
   );

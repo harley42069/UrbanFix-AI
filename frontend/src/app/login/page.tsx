@@ -28,7 +28,7 @@ export default function LoginPage() {
 
     if (activeTab === "admin") {
       if (!username || !password) {
-        setError("Email/username et mot de passe requis");
+        setError("Email/username and password are required");
         setLoading(false);
         return;
       }
@@ -40,15 +40,15 @@ export default function LoginPage() {
       const user = await getCurrentUser();
       rememberAuthSession(session, user);
       pushToast({
-        title: "Connexion reussie",
-        message: `Bienvenue ${user.full_name}`,
+        title: "Login successful",
+        message: `Welcome ${user.full_name}`,
         variant: "success"
       });
       router.push("/dashboard");
     } catch (submitError) {
-      const message = submitError instanceof Error ? submitError.message : "Connexion impossible";
+      const message = submitError instanceof Error ? submitError.message : "Unable to log in";
       setError(message);
-      pushToast({ title: "Echec de connexion", message, variant: "danger" });
+      pushToast({ title: "Login failed", message, variant: "danger" });
     } finally {
       setLoading(false);
     }
@@ -67,7 +67,7 @@ export default function LoginPage() {
               activeTab === "citizen" ? "bg-[#c4623a]" : "bg-[#1a5490]"
             }`}
           >
-            {activeTab === "citizen" ? "Espace Citoyen" : "Espace Municipal"}
+            {activeTab === "citizen" ? "Citizen Space" : "Municipal Space"}
           </div>
         </div>
 
@@ -83,7 +83,7 @@ export default function LoginPage() {
                 : "text-[#8b6f5e]"
             }`}
           >
-            Espace Citoyen
+            Citizen Space
           </button>
           <button
             type="button"
@@ -94,7 +94,7 @@ export default function LoginPage() {
                 : "text-[#8b6f5e]"
             }`}
           >
-            Espace Municipal
+            Municipal Space
           </button>
         </div>
 
@@ -102,21 +102,21 @@ export default function LoginPage() {
           {activeTab === "citizen" ? (
             <div className="space-y-6 text-center">
               <div>
-                <p className="text-sm font-semibold text-[#1a1a1a]">Aucun compte requis</p>
-                <p className="mt-2 text-sm text-[#8b6f5e]">Soumettez un signalement directement</p>
+                <p className="text-sm font-semibold text-[#1a1a1a]">No account required</p>
+                <p className="mt-2 text-sm text-[#8b6f5e]">Submit a report directly</p>
               </div>
               <button
                 type="button"
                 onClick={() => router.push("/signalements/new")}
                 className="w-full rounded-full bg-[#c4623a] px-4 py-3 text-sm font-semibold text-white transition hover:bg-[#a94a2a] disabled:cursor-not-allowed disabled:opacity-60"
               >
-                Soumettre un signalement
+                Submit a report
               </button>
             </div>
           ) : (
             <form onSubmit={handleSubmit} className="space-y-4">
               <label className="block space-y-2">
-                <span className="text-sm font-medium text-[#1a1a1a]">Nom d'utilisateur</span>
+                <span className="text-sm font-medium text-[#1a1a1a]">Username</span>
                 <input
                   value={username}
                   onChange={(event) => setUsername(event.target.value)}
@@ -127,7 +127,7 @@ export default function LoginPage() {
               </label>
 
               <label className="block space-y-2">
-                <span className="text-sm font-medium text-[#1a1a1a]">Mot de passe</span>
+                <span className="text-sm font-medium text-[#1a1a1a]">Password</span>
                 <input
                   type="password"
                   value={password}
@@ -145,7 +145,7 @@ export default function LoginPage() {
                 disabled={loading}
                 className="w-full rounded-full bg-[#c4623a] px-4 py-3 text-sm font-semibold text-white transition hover:bg-[#a94a2a] disabled:cursor-not-allowed disabled:opacity-60"
               >
-                {loading ? "Connexion..." : "Se connecter"}
+                {loading ? "Logging in..." : "Log in"}
               </button>
             </form>
           )}

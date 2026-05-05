@@ -388,7 +388,7 @@ class OrchestratorService:
                     import traceback
                     print(f" ERREUR generate_scenarios: {exc}")
                     traceback.print_exc()
-                    scenarios = []
+                    raise
 
             scenario_items: list[dict] = []
             for _idx, scenario in enumerate(scenarios, start=1):

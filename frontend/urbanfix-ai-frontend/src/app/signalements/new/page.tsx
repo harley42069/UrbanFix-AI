@@ -1,8 +1,9 @@
+"use client";
+
 import { useState } from 'react';
 import { useRouter } from 'next/navigation';
 import ImageUploader from '@/components/ImageUploader';
-import { createSignalement } from '@/lib/api';
-import toast from 'react-hot-toast';
+import { createSignalement, processSignalement } from '@/lib/api';
 
 const NewSignalementPage = () => {
   const router = useRouter();
@@ -16,11 +17,13 @@ const NewSignalementPage = () => {
   const [generateAudio, setGenerateAudio] = useState(false);
   const [generatePDF, setGeneratePDF] = useState(false);
   const [loading, setLoading] = useState(false);
+  const [error, setError] = useState<string | null>(null);
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
+    setError(null);
     if (!image || !title || !description || !city || !region) {
-      toast.error('Please fill in all fields and upload an image.');
+      setError('Please fill in all fields and upload an image.');
       return;
     }
 
@@ -41,9 +44,8 @@ const NewSignalementPage = () => {
       }
 
       router.push(`/signalements/${signalementId}`);
-      toast.success('Signalement created successfully!');
-    } catch (error) {
-      toast.error('Error creating signalement. Please try again.');
+    } catch (err: unknown) {
+      setError(err instanceof Error ? err.message : 'Error creating report. Please try again.');
     } finally {
       setLoading(false);
     }
@@ -56,13 +58,14 @@ const NewSignalementPage = () => {
         setLongitude(position.coords.longitude);
       });
     } else {
-      toast.error('Geolocation is not supported by this browser.');
+      setError('Geolocation is not supported by this browser.');
     }
   };
 
   return (
     <div className="p-6">
-      <h1 className="text-2xl font-bold mb-4">Nouveau Signalement</h1>
+      <h1 className="text-2xl font-bold mb-4">New Report</h1>
+      {error && <p className="mb-4 rounded border border-red-200 bg-red-50 p-3 text-sm text-red-700">{error}</p>}
       <form onSubmit={handleSubmit} className="space-y-4">
         <ImageUploader onImageUpload={setImage} />
         <input
@@ -97,7 +100,7 @@ const NewSignalementPage = () => {
           required
         />
         <button type="button" onClick={handleGeolocation} className="bg-blue-500 text-white p-2">
-          Auto-detect Geolocation
+          Detect location automatically
         </button>
         <div className="flex items-center">
           <input

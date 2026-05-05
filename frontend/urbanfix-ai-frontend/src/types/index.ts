@@ -1,20 +1,22 @@
 export interface Signalement {
   id: number;
   title: string;
-  description: string;
+  description?: string | null;
   city: string;
   region: string;
   latitude: number;
   longitude: number;
-  imageUrl: string;
+  imageUrl?: string | null;
   status: 'pending' | 'processing' | 'completed' | 'failed';
   createdAt: string;
 }
 
 export interface ProcessStatus {
-  id: number;
-  currentStage: 'detection' | 'images' | 'cost' | 'audio' | 'pdf';
-  isComplete: boolean;
+  id?: number;
+  signalementId?: number;
+  status: 'pending' | 'processing' | 'completed' | 'failed';
+  currentStage?: string | null;
+  isComplete?: boolean;
   audioUrl?: string;
   pdfUrl?: string;
 }
@@ -31,7 +33,15 @@ export interface Detection {
 }
 
 export interface Scenario {
-  imageUrl: string;
-  title: string;
-  cost: number;
+  imageUrl?: string | null;
+  title?: string;
+  cost?: number;
+}
+
+export interface SignalementDetail extends Signalement {
+  generatedImages?: string[];
+  costs?: number[];
+  scenarios?: Scenario[];
+  audioUrl?: string | null;
+  pdfUrl?: string | null;
 }

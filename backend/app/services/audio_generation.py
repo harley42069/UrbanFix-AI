@@ -34,12 +34,13 @@ except ImportError:
 try:
     from bark import SAMPLE_RATE, generate_audio, preload_models
     BARK_AVAILABLE = True
-except ImportError:
+except Exception as exc:
     BARK_AVAILABLE = False
     SAMPLE_RATE = 24000
     warnings.warn(
-        "Bark TTS non installé. "
-        "Installez avec: pip install git+https://github.com/suno-ai/bark.git"
+        "Bark TTS non disponible. "
+        "Installez avec: pip install git+https://github.com/suno-ai/bark.git "
+        f"ou vérifiez les dépendances runtime. Erreur: {exc}"
     )
 
 from ..core.config import settings

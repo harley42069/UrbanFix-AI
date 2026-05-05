@@ -8,8 +8,8 @@ type StatusBadgeProps = {
 export default function StatusBadge({ status }: StatusBadgeProps) {
   const value = (status || "pending").toString().toLowerCase();
 
-  if (value === "completed") return <Badge tone="success">Termine</Badge>;
-  if (value === "processing") return <Badge tone="warning">En cours</Badge>;
-  if (value === "failed" || value === "rejected") return <Badge tone="danger">Bloque</Badge>;
-  return <Badge tone="neutral">En attente</Badge>;
+  if (value === "completed") return <Badge tone="success">Completed</Badge>;
+  if (value === "processing") return <Badge tone="warning">In progress</Badge>;
+  if (value === "failed" || value === "rejected") return <Badge tone="danger">Blocked</Badge>;
+  return <Badge tone="neutral">Pending</Badge>;
 }

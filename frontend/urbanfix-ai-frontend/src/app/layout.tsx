@@ -3,12 +3,12 @@ import './globals.css';
 
 export const metadata = {
   title: 'UrbanFix AI',
-  description: 'A platform for managing signalements',
+  description: 'A platform for managing urban reports',
 };
 
 const RootLayout = ({ children }: { children: React.ReactNode }) => {
   return (
-    <html lang="fr">
+    <html lang="en" className="font-sans">
       <body className="bg-accent text-gray-800">
         {children}
       </body>

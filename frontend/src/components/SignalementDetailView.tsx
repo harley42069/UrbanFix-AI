@@ -19,7 +19,7 @@ type SignalementDetailViewProps = {
 };
 
 function formatTnd(value: number): string {
-  return new Intl.NumberFormat("fr-FR", {
+  return new Intl.NumberFormat("en-US", {
     style: "currency",
     currency: "TND",
     maximumFractionDigits: 0
@@ -37,7 +37,7 @@ export default function SignalementDetailView({ signalementId, autoRefresh = tru
       setData(response);
       setError(null);
     } catch (fetchError) {
-      setError(fetchError instanceof Error ? fetchError.message : "Erreur de chargement du signalement");
+      setError(fetchError instanceof Error ? fetchError.message : "Unable to load the report");
     } finally {
       setLoading(false);
     }
@@ -74,15 +74,15 @@ export default function SignalementDetailView({ signalementId, autoRefresh = tru
   }
 
   if (!data) {
-    return <Card>Aucune donnee disponible.</Card>;
+    return <Card>No data available.</Card>;
   }
 
   return (
     <section className="space-y-6">
       <Card className="space-y-6">
         <SectionHeader
-          title={`Signalement #${signalementId}`}
-          subtitle="Interface municipale pour suivre la detection, les scenarios et les livrables IA"
+          title={`Report #${signalementId}`}
+          subtitle="Municipal interface for tracking detection, scenarios, and AI outputs"
           actions={
             <>
               <StatusBadge status={data.status} />
@@ -93,15 +93,15 @@ export default function SignalementDetailView({ signalementId, autoRefresh = tru
 
         <div className="grid gap-3 sm:grid-cols-2 xl:grid-cols-4">
           <div className="rounded-2xl bg-slate-50 p-4">
-            <p className="text-xs uppercase tracking-[0.18em] text-slate-500">Statut</p>
+            <p className="text-xs uppercase tracking-[0.18em] text-slate-500">Status</p>
             <p className="mt-2 text-lg font-semibold text-slate-900">{data.status}</p>
           </div>
           <div className="rounded-2xl bg-slate-50 p-4">
-            <p className="text-xs uppercase tracking-[0.18em] text-slate-500">Etape</p>
+            <p className="text-xs uppercase tracking-[0.18em] text-slate-500">Stage</p>
             <p className="mt-2 text-lg font-semibold text-slate-900">{data.current_stage || data.stage || "queued"}</p>
           </div>
           <div className="rounded-2xl bg-slate-50 p-4">
-            <p className="text-xs uppercase tracking-[0.18em] text-slate-500">Scenario</p>
+            <p className="text-xs uppercase tracking-[0.18em] text-slate-500">Scenarios</p>
             <p className="mt-2 text-lg font-semibold text-slate-900">{scenarios.length}</p>
           </div>
           <div className="rounded-2xl bg-slate-50 p-4">
@@ -121,29 +121,29 @@ export default function SignalementDetailView({ signalementId, autoRefresh = tru
       <div className="grid gap-6 xl:grid-cols-[1.4fr_0.9fr]">
         <div className="space-y-6">
           <Card className="space-y-4">
-            <SectionHeader title="Scenarios de rehabilitation" />
+            <SectionHeader title="Rehabilitation scenarios" />
             <div className="grid gap-4 lg:grid-cols-2">
-              {scenarios.length ? scenarios.map((scenario) => <ScenarioCard key={scenario.id} scenario={scenario} />) : <p className="text-sm text-slate-500">Aucun scenario disponible pour le moment.</p>}
+              {scenarios.length ? scenarios.map((scenario) => <ScenarioCard key={scenario.id} scenario={scenario} />) : <p className="text-sm text-slate-500">No scenario available yet.</p>}
             </div>
           </Card>
 
           <Card className="space-y-4">
-            <SectionHeader title="Elements techniques" subtitle="Sorties detectees et informations de pipeline" />
+            <SectionHeader title="Technical details" subtitle="Detected outputs and pipeline information" />
             <div className="grid gap-4 md:grid-cols-2">
               <div className="rounded-2xl border border-slate-200 bg-slate-50 p-4">
-                <p className="text-sm font-semibold text-slate-900">Sorties detection</p>
+                <p className="text-sm font-semibold text-slate-900">Detection outputs</p>
                 <div className="mt-3 space-y-2 text-sm text-slate-600">
                   <p>Total: {typeof (detections as { total_problems?: number } | null)?.total_problems === "number" ? (detections as { total_problems?: number }).total_problems : detectionCount}</p>
-                  <p>Langue: {data.language}</p>
-                  <p>Temps de traitement: {data.processing_time_seconds ? `${Math.round(data.processing_time_seconds)} s` : "n/a"}</p>
+                  <p>Language: {data.language}</p>
+                  <p>Processing time: {data.processing_time_seconds ? `${Math.round(data.processing_time_seconds)} s` : "n/a"}</p>
                 </div>
               </div>
 
               <div className="rounded-2xl border border-slate-200 bg-slate-50 p-4">
-                <p className="text-sm font-semibold text-slate-900">Resume cout</p>
+                <p className="text-sm font-semibold text-slate-900">Cost summary</p>
                 <div className="mt-3 space-y-2 text-sm text-slate-600">
                   <p>Scenarios: {scenarios.length}</p>
-                  <p>Cout moyen: {formatTnd(scenarios.reduce((sum, scenario) => sum + scenario.cost_total, 0) / (scenarios.length || 1))}</p>
+                  <p>Average cost: {formatTnd(scenarios.reduce((sum, scenario) => sum + scenario.cost_total, 0) / (scenarios.length || 1))}</p>
                 </div>
               </div>
             </div>
@@ -152,37 +152,37 @@ export default function SignalementDetailView({ signalementId, autoRefresh = tru
 
         <div className="space-y-6">
           <Card className="space-y-4">
-            <SectionHeader title="Medias generes" subtitle="Visuels, audio et documents exportes" />
+            <SectionHeader title="Generated media" subtitle="Images, audio, and exported documents" />
             {media?.scenario_image ? (
               <a href={media.scenario_image} target="_blank" rel="noreferrer" className="block overflow-hidden rounded-2xl border border-slate-200 bg-white">
-                <img src={media.scenario_image} alt="Image scenario" className="h-48 w-full object-cover" />
-                <div className="px-4 py-3 text-sm font-medium text-slate-700">Ouvrir l'image scenario</div>
+                <img src={media.scenario_image} alt="Scenario image" className="h-48 w-full object-cover" />
+                <div className="px-4 py-3 text-sm font-medium text-slate-700">Open scenario image</div>
               </a>
             ) : null}
-            <AudioPlayer src={media?.audio_url || null} title="Narration audio" />
+            <AudioPlayer src={media?.audio_url || null} title="Audio narration" />
             {media?.video_url ? (
               <a href={media.video_url} target="_blank" rel="noreferrer" className="inline-flex w-full items-center justify-center rounded-2xl bg-[#1f6fb2] px-4 py-3 text-sm font-semibold text-white hover:bg-[#185b90]">
-                Ouvrir la video
+                Open video
               </a>
             ) : null}
             {media?.pdf_url ? (
               <a href={media.pdf_url} target="_blank" rel="noreferrer" className="inline-flex w-full items-center justify-center rounded-2xl border border-slate-300 bg-white px-4 py-3 text-sm font-semibold text-slate-800 hover:bg-slate-50">
-                Telecharger le rapport PDF
+                Download PDF report
               </a>
             ) : null}
           </Card>
 
           <Card className="space-y-4">
-            <SectionHeader title="Actions" subtitle="Acces rapide au suivi et aux listes" />
+            <SectionHeader title="Actions" subtitle="Quick access to monitoring and lists" />
             <div className="grid gap-3">
               <button type="button" onClick={load} className="rounded-2xl border border-slate-300 bg-white px-4 py-3 text-sm font-semibold text-slate-800 hover:bg-slate-50">
-                Rafraichir
+                Refresh
               </button>
               <Link href="/signalements" className="rounded-2xl bg-[#1f6fb2] px-4 py-3 text-center text-sm font-semibold text-white hover:bg-[#185b90]">
-                Voir tous les signalements
+                View all reports
               </Link>
               <Link href="/signalements/new" className="rounded-2xl border border-slate-300 bg-white px-4 py-3 text-center text-sm font-semibold text-slate-800 hover:bg-slate-50">
-                Nouveau signalement
+                New report
               </Link>
             </div>
           </Card>

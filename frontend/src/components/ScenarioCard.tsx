@@ -8,7 +8,7 @@ type ScenarioCardProps = {
 };
 
 function formatTnd(value: number): string {
-  return new Intl.NumberFormat("fr-FR", {
+  return new Intl.NumberFormat("en-US", {
     style: "currency",
     currency: "TND",
     maximumFractionDigits: 0
@@ -30,7 +30,7 @@ export default function ScenarioCard({ scenario }: ScenarioCardProps) {
           onClick={() => window.open(scenario.image_url || "", "_blank")}
         />
       ) : (
-        <div className="flex h-56 items-center justify-center bg-slate-100 text-sm text-slate-500">Image scenario indisponible</div>
+        <div className="flex h-56 items-center justify-center bg-slate-100 text-sm text-slate-500">Scenario image unavailable</div>
       )}
 
       <div className="space-y-4 p-5">

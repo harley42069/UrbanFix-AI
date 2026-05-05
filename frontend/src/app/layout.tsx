@@ -11,12 +11,12 @@ export const metadata: Metadata = {
     default: "UrbanFix AI",
     template: "%s · UrbanFix AI"
   },
-  description: "Plateforme municipale UrbanFix AI pour la gestion des signalements et des scenarii de rehabilitation"
+  description: "UrbanFix AI municipal platform for managing urban reports and rehabilitation scenarios"
 };
 
 export default function RootLayout({ children }: { children: ReactNode }) {
   return (
-    <html lang="fr">
+    <html lang="en">
       <body>
         <AppProviders>
           <div className="min-h-screen bg-municipal-shell text-slate-900">
@@ -26,7 +26,7 @@ export default function RootLayout({ children }: { children: ReactNode }) {
                   <span className="font-bold text-lg">UrbanFix AI</span>
                   <img
                     src="https://flagcdn.com/24x18/tn.png"
-                    alt="Tunisie"
+                    alt="Tunisia"
                     width="24"
                     height="18"
                     className="inline-block ml-2 rounded-sm"
@@ -35,7 +35,7 @@ export default function RootLayout({ children }: { children: ReactNode }) {
               <nav className="flex items-center justify-end gap-3 text-sm font-medium text-slate-700">
                   <NavLink />
                 <Link href="/login" className="rounded-full bg-[#1f6fb2] px-4 py-2 text-white hover:bg-[#185b90]">
-                  Connexion
+                  Login
                 </Link>
               </nav>
               </div>
@@ -45,7 +45,7 @@ export default function RootLayout({ children }: { children: ReactNode }) {
 
             <footer id="footer" className="border-t border-[#e8d5c0] bg-[#fdf6ec]">
               <div className="mx-auto flex w-full max-w-7xl items-center justify-center px-4 py-3 text-xs text-[#8b6f5e] lg:px-8">
-                <p>UrbanFix AI · Gestion intelligente des signalements urbains · Tunisie 🇹🇳</p>
+                <p>UrbanFix AI · Smart urban report management · Tunisia</p>
               </div>
             </footer>
           </div>

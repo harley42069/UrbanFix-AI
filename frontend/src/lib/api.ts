@@ -36,14 +36,14 @@ const FIXED_TOKEN = process.env.NEXT_PUBLIC_API_TOKEN;
 function getApiBaseUrlOrThrow(): string {
   const raw = process.env.NEXT_PUBLIC_API_BASE_URL;
   if (!raw) {
-    throw new Error("NEXT_PUBLIC_API_BASE_URL est manquant. Configurez le frontend puis relancez-le.");
+    throw new Error("NEXT_PUBLIC_API_BASE_URL is missing. Configure the frontend and restart it.");
   }
   return raw.replace(/\/+$/, "");
 }
 
 function getDiagnosticMessage(error: unknown, url: string): string {
   if (error instanceof DOMException && error.name === "AbortError") {
-    return `Le serveur ne repond pas (${url}). Verifiez que le backend est lance.`;
+    return `The server is not responding (${url}). Check that the backend is running.`;
   }
 
   const baseMsg = error instanceof Error ? error.message : "Unknown error";
@@ -51,24 +51,24 @@ function getDiagnosticMessage(error: unknown, url: string): string {
 
   if (isNetworkError) {
     if (!API_BASE_URL) {
-      return "NEXT_PUBLIC_API_BASE_URL est manquant. Configurez le frontend puis relancez-le.";
+      return "NEXT_PUBLIC_API_BASE_URL is missing. Configure the frontend and restart it.";
     }
 
     const localhostApi = API_BASE_URL.includes("localhost") || API_BASE_URL.includes("127.0.0.1");
     const pageHost = typeof window !== "undefined" ? window.location.hostname : "";
     const pageIsLocal = pageHost === "localhost" || pageHost === "127.0.0.1";
     const lanHint = localhostApi && pageHost && !pageIsLocal
-      ? " Vous utilisez probablement le frontend depuis un autre appareil. Remplacez NEXT_PUBLIC_API_BASE_URL par l'IP locale du PC (ex: http://192.168.x.x:8000) et demarrez le backend avec --host 0.0.0.0."
+      ? " You are probably using the frontend from another device. Replace NEXT_PUBLIC_API_BASE_URL with the computer's local IP (for example, http://192.168.x.x:8000) and start the backend with --host 0.0.0.0."
       : "";
 
-    return `Impossible de contacter le backend (${url}). Verifiez que le backend est lance.${lanHint}`;
+    return `Unable to contact the backend (${url}). Check that the backend is running.${lanHint}`;
   }
 
   return baseMsg;
 }
 
 function getRequestErrorMessage(response: Response, url: string): string {
-  return `Echec requete API (${response.status}) sur ${url}`;
+  return `API request failed (${response.status}) at ${url}`;
 }
 
 async function fetchWithTimeout(url: string, init: RequestInit, timeoutMs = 25000): Promise<Response> {
@@ -119,24 +119,24 @@ async function requestApiEnvelope<T>(
       const backendMessage = payload?.error?.message;
 
       if (response.status === 401) {
-        throw new Error("Authentification requise. Connectez-vous ou configurez un token.");
+        throw new Error("Authentication required. Log in or configure a token.");
       }
       if (response.status === 403) {
-        throw new Error("Acces refuse pour cette operation.");
+        throw new Error("Access denied for this operation.");
       }
       if (response.status >= 500) {
-        throw new Error("Le backend a retourne une erreur interne.");
+        throw new Error("The backend returned an internal error.");
       }
 
       throw new Error(backendMessage || getRequestErrorMessage(response, url));
     }
 
     if (!payload || !payload.success) {
-      throw new Error("Reponse API invalide ou incomplete.");
+      throw new Error("Invalid or incomplete API response.");
     }
 
     if (payload.data === null || payload.data === undefined) {
-      throw new Error("Reponse API invalide ou incomplete.");
+      throw new Error("Invalid or incomplete API response.");
     }
 
     return {
@@ -173,7 +173,7 @@ function resolveUrl(path: string | null | undefined): string | null {
 }
 
 function asLanguage(value: unknown): SupportedLanguage {
-  return value === "en" ? "en" : "fr";
+  return value === "fr" ? "fr" : "en";
 }
 
 function asScenarioType(value: unknown): ScenarioType {
@@ -192,8 +192,8 @@ function normalizeCostBreakdown(input: unknown): CostItem[] {
     return input
       .filter((item): item is Record<string, unknown> => !!item && typeof item === "object")
       .map((item) => ({
-        category: String(item.category || "travaux"),
-        description: String(item.description || item.category || "Travaux"),
+        category: String(item.category || "work"),
+        description: String(item.description || item.category || "Work"),
         quantity: asNumber(item.quantity, asNumber(item.count, 1)),
         unit: String(item.unit || "unit"),
         unit_price: asNumber(item.unit_price, asNumber(item.unit_cost, 0)),
@@ -234,7 +234,7 @@ function buildNarrationFallback(type: ScenarioType, costTotal: number, lang: Sup
   if (lang === "en") {
     return `This ${type} scenario will improve the area and will cost about ${new Intl.NumberFormat("en-US").format(Math.round(costTotal))} TND.`;
   }
-  return `Ce scenario ${type} ameliorera la zone et le cout des travaux sera d'environ ${new Intl.NumberFormat("fr-FR").format(Math.round(costTotal))} TND.`;
+  return `This ${type} scenario will improve the area and will cost about ${new Intl.NumberFormat("en-US").format(Math.round(costTotal))} TND.`;
 }
 
 function normalizeScenario(entry: LegacyScenarioItem, index: number, lang: SupportedLanguage): Scenario {
@@ -292,7 +292,7 @@ function normalizeMedia(raw: RawProcessStatusResponse): MediaUrls {
 }
 
 function normalizeStatus(data: RawProcessStatusResponse): ProcessStatusResponse {
-  const language = asLanguage(data.language ?? data.results?.language ?? "fr");
+  const language = asLanguage(data.language ?? data.results?.language ?? "en");
   const scenarios = normalizeScenarios(data.results ?? data.scenarios ?? null, language);
   const media = normalizeMedia(data);
 
@@ -456,7 +456,7 @@ export async function createSignalement(options: SubmitSignalementOptions): Prom
   }
 
   if (!options.imageFile) {
-    throw new Error("Ajoutez une image pour creer ce signalement.");
+    throw new Error("Add an image to create this report.");
   }
 
   const baseUrl = getApiBaseUrlOrThrow();
@@ -511,7 +511,7 @@ export async function uploadAndStartPipeline(
   const interactionMode = resolveInteractionMode(hasImage, Boolean(prompt));
 
   return createSignalement({
-    title: values.title?.trim() || `Signalement ${values.category}`,
+    title: values.title?.trim() || `Report ${values.category}`,
     description: undefined,
     user_prompt: prompt || undefined,
     interaction_mode: interactionMode,

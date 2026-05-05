@@ -12,7 +12,7 @@ import type { AuthUser, SignalementSummary } from "@/lib/types";
 
 function formatDate(value?: string | null): string {
   if (!value) return "-";
-  return new Intl.DateTimeFormat("fr-FR", {
+  return new Intl.DateTimeFormat("en-US", {
     dateStyle: "medium",
     timeStyle: "short"
   }).format(new Date(value));
@@ -38,7 +38,7 @@ export default function DashboardPage() {
         setUser(profile);
         setSignalements(list.items);
       } catch (fetchError) {
-        setError(fetchError instanceof Error ? fetchError.message : "Erreur de chargement du tableau de bord");
+        setError(fetchError instanceof Error ? fetchError.message : "Unable to load the dashboard");
       } finally {
         setLoading(false);
       }
@@ -62,15 +62,15 @@ export default function DashboardPage() {
       <section className="space-y-6" style={{ background: "linear-gradient(180deg, #fdf6ec 0%, #f5ede0 100%)" }}>
         <Card className="space-y-4 rounded-3xl border-[#e8d5c0] bg-white">
           <SectionHeader
-            title="Tableau de bord"
-            subtitle={user ? `Bonjour ${user.full_name}, voici l'activite recemment enregistree.` : "Vue consolidee des dossiers et du pipeline IA."}
+            title="Dashboard"
+            subtitle={user ? `Hello ${user.full_name}, here is the latest recorded activity.` : "Consolidated view of reports and the AI pipeline."}
             actions={
               <>
                 <Link href="/signalements/new" className="rounded-full bg-[#c4623a] px-4 py-2 text-sm font-semibold text-white hover:bg-[#a94a2a]">
-                  Nouveau signalement
+                  New report
                 </Link>
                 <Link href="/signalements" className="rounded-full border border-[#e8d5c0] bg-white px-4 py-2 text-sm font-semibold text-[#1a5490] hover:bg-[#f0f7ff]">
-                  Liste complete
+                  Full list
                 </Link>
               </>
             }
@@ -84,19 +84,19 @@ export default function DashboardPage() {
               <p className="mt-2 text-3xl font-black text-[#1a1a1a]">{loading ? "-" : stats.total}</p>
             </div>
             <div className="rounded-3xl border border-[#e8d5c0] bg-white p-4 shadow-sm">
-              <p className="text-xs uppercase tracking-[0.18em] text-[#8b6f5e]">En attente</p>
+              <p className="text-xs uppercase tracking-[0.18em] text-[#8b6f5e]">Pending</p>
               <p className="mt-2 text-3xl font-black text-[#1a1a1a]">{loading ? "-" : stats.pending}</p>
             </div>
             <div className="rounded-3xl border border-[#e8d5c0] bg-white p-4 shadow-sm">
-              <p className="text-xs uppercase tracking-[0.18em] text-[#8b6f5e]">En cours</p>
+              <p className="text-xs uppercase tracking-[0.18em] text-[#8b6f5e]">In progress</p>
               <p className="mt-2 text-3xl font-black text-[#1a1a1a]">{loading ? "-" : stats.processing}</p>
             </div>
             <div className="rounded-3xl border border-[#e8d5c0] bg-white p-4 shadow-sm">
-              <p className="text-xs uppercase tracking-[0.18em] text-[#8b6f5e]">Termines</p>
+              <p className="text-xs uppercase tracking-[0.18em] text-[#8b6f5e]">Completed</p>
               <p className="mt-2 text-3xl font-black text-[#1a1a1a]">{loading ? "-" : stats.completed}</p>
             </div>
             <div className="rounded-3xl border border-[#e8d5c0] bg-white p-4 shadow-sm">
-              <p className="text-xs uppercase tracking-[0.18em] text-[#8b6f5e]">A traiter</p>
+              <p className="text-xs uppercase tracking-[0.18em] text-[#8b6f5e]">Needs attention</p>
               <p className="mt-2 text-3xl font-black text-[#1a1a1a]">{loading ? "-" : stats.failed}</p>
             </div>
           </div>
@@ -104,22 +104,22 @@ export default function DashboardPage() {
 
         <div className="grid gap-6 lg:grid-cols-[1.15fr_0.85fr]">
           <Card className="space-y-4 rounded-3xl border-[#e8d5c0] bg-white">
-            <SectionHeader title="Derniers signalements" subtitle="Les dossiers les plus recents" />
+            <SectionHeader title="Recent reports" subtitle="The latest cases" />
             {signalements.length ? (
               <div className="space-y-3">
                 {signalements.map((item) => (
                   <Link key={item.id} href={`/signalements/${item.id}`} className="block rounded-3xl border border-[#e8d5c0] bg-white p-4 transition hover:border-[#1a5490] hover:shadow-sm">
                     <div className="flex flex-wrap items-start justify-between gap-3">
                       <div>
-                        <h3 className="text-sm font-semibold text-[#1a1a1a]">{item.title || `Signalement #${item.id}`}</h3>
-                        <p className="mt-1 text-sm text-[#8b6f5e]">{item.city || "Ville inconnue"} {item.region ? `· ${item.region}` : ""}</p>
+                        <h3 className="text-sm font-semibold text-[#1a1a1a]">{item.title || `Report #${item.id}`}</h3>
+                        <p className="mt-1 text-sm text-[#8b6f5e]">{item.city || "Unknown city"} {item.region ? `· ${item.region}` : ""}</p>
                       </div>
                       <StatusBadge status={item.status} />
                     </div>
                     <div className="mt-3 grid gap-2 text-xs text-[#8b6f5e] sm:grid-cols-3">
-                      <span>Etape: {item.current_stage || "queued"}</span>
-                      <span>Progression: {item.progress || 0}%</span>
-                      <span>Maj: {formatDate(item.updated_at)}</span>
+                      <span>Stage: {item.current_stage || "queued"}</span>
+                      <span>Progress: {item.progress || 0}%</span>
+                      <span>Updated: {formatDate(item.updated_at)}</span>
                     </div>
                   </Link>
                 ))}
@@ -130,27 +130,27 @@ export default function DashboardPage() {
                 <div className="h-20 animate-pulse rounded-2xl bg-slate-100" />
               </div>
             ) : (
-              <p className="text-sm text-[#8b6f5e]">Aucun signalement disponible.</p>
+              <p className="text-sm text-[#8b6f5e]">No reports available.</p>
             )}
           </Card>
 
           <Card className="space-y-4 rounded-3xl border-[#e8d5c0] bg-white">
-            <SectionHeader title="Actions rapides" subtitle="Points d'entree du service" />
+            <SectionHeader title="Quick actions" subtitle="Service entry points" />
             <div className="grid gap-3">
               <Link href="/signalements/new" className="rounded-full bg-[#c4623a] px-4 py-4 text-sm font-semibold text-white hover:bg-[#a94a2a]">
-                Créer un signalement
+                Create a report
               </Link>
               <Link href="/signalements" className="rounded-full border border-[#e8d5c0] bg-white px-4 py-4 text-sm font-semibold text-[#1a5490] hover:bg-[#f0f7ff]">
-                Explorer la base
+                Browse database
               </Link>
               <Link href="/login" className="rounded-full border border-[#e8d5c0] bg-white px-4 py-4 text-sm font-semibold text-[#1a5490] hover:bg-[#f0f7ff]">
-                Changer de compte
+                Switch account
               </Link>
             </div>
 
             <div className="rounded-3xl border border-[#e8d5c0] bg-[#fbf6ef] p-4 text-sm text-[#8b6f5e]">
-              <p className="font-semibold text-[#1a1a1a]">Conseil operationnel</p>
-              <p className="mt-2">Utilisez la liste des signalements pour verifier le statut, puis ouvrez le detail pour suivre la progression du pipeline et telecharger les livrables.</p>
+              <p className="font-semibold text-[#1a1a1a]">Operational tip</p>
+              <p className="mt-2">Use the reports list to check status, then open the details to track pipeline progress and download outputs.</p>
             </div>
           </Card>
         </div>
